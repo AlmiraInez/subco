@@ -1,0 +1,141 @@
+.profile-info {
+    position: relative;
+    padding-bottom: 0;
+}
+
+.profile-info * {
+    transition: .600s;
+}
+
+.profile-info figure {
+    width: 100%;
+    height: 82px;
+    background: url("/img/subco1.jpg") center center/cover no-repeat;
+    margin-bottom: 0;
+}
+
+.profile-info .user-info {
+    text-align: center;
+    padding: 50px 0 0 0;
+    height: 105px;
+}
+
+.profile-info .user-info img {
+    position: absolute;
+    top: 34px;
+    border-radius: 50%;
+    border: 6px solid rgba(235, 237, 242, .611765);
+    border: 6px solid rgba(226, 160, 30, 0.24);
+    left: 0;
+    right: 0;
+    height: 90px;
+    width: 90px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.profile-info .user-info h6 {
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
+    opacity: 1;
+}
+
+.profile-info .user-info p {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    opacity: 1;
+    color: #888ea8;
+}
+
+.sidebar-collapse .profile-info {
+    position: relative;
+}
+
+.sidebar-collapse .profile-info figure {
+    height: 0;
+    opacity: 0;
+}
+
+.sidebar-collapse .profile-info .user-info {
+    text-align: center;
+    padding: 50px 0 0 0;
+    height: 50px;
+}
+
+.sidebar-collapse .profile-info .user-info img {
+    top: 10px;
+    border: 3px solid rgba(226, 160, 30, 0.24);
+    width: 36px;
+    height: 36px;
+}
+
+.sidebar-collapse .profile-info .user-info h6,
+.sidebar-collapse .profile-info .user-info p {
+    opacity: 0;
+}
+
+.sidebar-collapse .sidebar:hover .profile-info {
+    position: relative;
+}
+
+.sidebar-collapse .sidebar:hover .profile-info figure {
+    height: 76px;
+    opacity: 1;
+}
+
+.sidebar-collapse .sidebar:hover .profile-info .user-info {
+    padding: 50px 0 0 0;
+    height: 105px;
+}
+
+.sidebar-collapse .sidebar:hover .profile-info .user-info img {
+    top: 34px;
+    border: 6px solid rgba(226, 160, 30, 0.24);
+    width: 90px;
+    height: 90px;
+}
+
+.sidebar-collapse .sidebar:hover .profile-info .user-info h6,
+.sidebar-collapse .sidebar:hover .profile-info .user-info p {
+    opacity: 1;
+}
+
+.sidebar-collapse .navbar-warning:hover+.sidebar .profile-info {
+    position: relative;
+}
+
+.sidebar-collapse .navbar-warning:hover+.sidebar .profile-info figure {
+    height: 76px;
+    opacity: 1;
+}
+
+.sidebar-collapse .navbar-warning:hover+.sidebar .profile-info .user-info {
+    padding: 50px 0 0 0;
+    height: 105px;
+}
+
+.sidebar-collapse .navbar-warning:hover+.sidebar .profile-info .user-info img {
+    top: 34px;
+    border: 6px solid rgba(226, 160, 30, 0.24);
+    width: 90px;
+    height: 90px;
+}
+
+.sidebar-collapse .navbar-warning:hover+.sidebar .profile-info .user-info h6,
+.sidebar-collapse .navbar-warning:hover+.sidebar .profile-info .user-info p {
+    opacity: 1;
+}
+
+.sidebar {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+.sidebar>nav {
+    padding-right: .5rem;
+    padding-left: .5rem;
+}
