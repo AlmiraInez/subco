@@ -108,7 +108,7 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                       <label>Bukti<b class="text-danger">*</b></label>
-                      <img src="{{ asset('assets/payments/img.8sL1Y.png') }}" alt="" style="height:250px; width:250px;">
+                      <img src="{{ asset($transaction->payment_img) }}" alt="" style="height:250px; width:250px;">
                     </div>
                 </div>
               </div>

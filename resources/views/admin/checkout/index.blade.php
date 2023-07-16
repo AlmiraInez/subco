@@ -100,7 +100,7 @@ $(function(){
         responsive: true,
         order: [[ 8, "asc" ]],
         ajax: {
-            url: "{{route('checkin.read')}}",
+            url: "{{route('checkout.read')}}",
             type: "GET",
             data:function(data){
                 var uomcategory_name = $('#form-search').find('input[name=uomcategory_name]').val();

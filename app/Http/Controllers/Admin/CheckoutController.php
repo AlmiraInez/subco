@@ -121,7 +121,7 @@ class CheckoutController extends Controller
         $transaction = Transaction::with(['tenant', 'room', 'category'])->findOrFail($id);
         // dd($transaction);
         if ($transaction) {
-            return view('admin.checkout.addcheckin', compact('transaction'));
+            return view('admin.checkout.addcheckout', compact('transaction'));
         } else {
             abort(404);
         }
@@ -150,7 +150,7 @@ class CheckoutController extends Controller
                 $transaction->status = Transaction::STAT_CHECKOUT;
                 $transaction->save();
 
-                $room = Room::findOne($transaction->room_id);
+                $room = Room::findOrFail($transaction->room_id);
                 $room->status = 1;
                 $room->save();
             }

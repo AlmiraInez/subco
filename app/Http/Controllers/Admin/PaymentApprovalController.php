@@ -123,7 +123,8 @@ class PaymentApprovalController extends Controller
         }
         return response()->json([
             'status'    => true,
-            'results'   => route('admin.paymentapproval.index')
+            'results'   => route('paymentapproval.index'),
+            'message'   => 'Berhasil merubah data!',
         ], 200);
     }
     /**

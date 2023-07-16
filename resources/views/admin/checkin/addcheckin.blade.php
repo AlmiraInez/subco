@@ -111,7 +111,7 @@
                 </div>              
                  <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="image1" class="col-sm-12 col-form-label">DDokumen Checkin</label>
+                    <label for="image1" class="col-sm-12 col-form-label">Dokumen Checkin</label>
                     <div class="col-sm-12">
                         <input type="file" class="form-control" name="image1" id="image1" accept=".pdf" 
                            data-overwrite-initial="false" />

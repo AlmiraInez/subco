@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Checkin Ruangan')
+@section('title', 'Checkout Ruangan')
 @section('stylesheets')
 <link href="{{asset('adminlte/component/daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 <link href="{{asset('adminlte/component/bootstrap-fileinput/css/fileinput.min.css')}}" rel="stylesheet">
@@ -13,12 +13,12 @@
 @endsection
 
 @push('breadcrump')
-<li class="breadcrumb-item"><a href="{{route('invoice.index')}}">Checkin</a></li>
-<li class="breadcrumb-item active">Checkin Ruangan</li>
+<li class="breadcrumb-item"><a href="{{route('checkout.index')}}">Checkout</a></li>
+<li class="breadcrumb-item active">Checkout Ruangan</li>
 @endpush
 
 @section('content')
-<form id="form" action="{{ route('checkin.savecheckin', ['id'=>$transaction->id])}}" method="post" autocomplete="off">
+<form id="form" action="{{ route('checkout.savecheckout', ['id'=>$transaction->id])}}" method="post" autocomplete="off">
 <div class="wrapper wrapper-content">
     {{ csrf_field() }}
     {{ method_field('put') }}
@@ -26,7 +26,7 @@
       <div class="col-lg-8">
         <div class="card card-{{ config('configs.app_theme') }} card-outline">
           <div class="card-header" style="height: 57px;">
-            <h3 class="card-title">Checkin Ruangan</h3>
+            <h3 class="card-title">Checkout Ruangan</h3>
           </div>
           <div class="card-body">
               <div class="col-md-12">
@@ -60,7 +60,6 @@
                     <div class="row mb-3 col-md-6">
                         <div class="col-md-4"><b>Tenan</b></div>
                         <div class="col-md-8">{{ $transaction->tenant->name }}</div>
-
                     </div>
                     <div class="row mb-3 col-md-6">
                         <div class="col-md-4"><b>Perusahaan</b></div>
@@ -78,7 +77,10 @@
                         <div class="col-md-4"><b>Periode Bayar</b></div>
                         <div class="col-md-8">{{ $transaction->payment_period }}</div>
                     </div>
-
+                    <div class="row mb-3 col-md-6">
+                        <div class="col-md-4"><b>Tanggal Checkin</b></div>
+                        <div class="col-md-8">{{ $transaction->checkin_date }}</div>
+                    </div>
                 </div>
               </div>           
           </div>
@@ -103,7 +105,7 @@
                 <div class="col-sm-12">
                   <!-- text input -->
                   <div class="form-group">
-                    <label>Catatan Checkin</label>
+                    <label>Catatan Checkout</label>
 
                     {{-- {{ $transaction->notes }} --}}
                     <textarea class="form-control" name="notes" placeholder="Notes"></textarea>
@@ -111,7 +113,7 @@
                 </div>              
                  <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="image1" class="col-sm-12 col-form-label">DDokumen Checkin</label>
+                    <label for="image1" class="col-sm-12 col-form-label">Dokumen Checkout</label>
                     <div class="col-sm-12">
                         <input type="file" class="form-control" name="image1" id="image1" accept=".pdf" 
                            data-overwrite-initial="false" />

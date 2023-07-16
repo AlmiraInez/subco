@@ -90,8 +90,10 @@
           <div class="card-header">
             <h3 class="card-title">Other</h3>
             <div class="pull-right card-tools">
-              <a href="{{route('payment.addpayment', ['id' => $transaction->id]) }}" class="btn btn-sm btn-{{ config('configs.app_theme') }}" title="Buat Pembayaran"><i
+              @if($transaction->payment_status == 0)
+              <a href="{{route('payment.addpayment', ['id' => $transaction->id]) }}" class="btn btn-sm btn-{{ config('configs.app_theme') }}" title="Checkin Ruangan"><i
                   class="fa fa-money-bill"></i></a>
+              @endif
               <a href="javascript:void(0);" onclick="eventPrint(this)" data-id="{{ $transaction->id }}" class="btn btn-sm btn-warning text-white"><i class="fa fa-print"></i></a>
               <a href="{{ url()->previous() }}" class="btn btn-sm btn-default" title="Back"><i
                   class="fa fa-reply"></i></a>
