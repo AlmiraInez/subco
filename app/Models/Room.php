@@ -11,7 +11,7 @@ class Room extends Model
    
     public function fasilities()
     {
-        return $this->hasMany('App\Models\Roomfasility', 'room_id', 'id');
+        return $this->hasMany('App\Models\RoomFasility', 'room_id', 'id');
     }
     public function category()
     {
