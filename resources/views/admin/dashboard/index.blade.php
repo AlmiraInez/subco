@@ -70,7 +70,7 @@
                                     <h5 class="info-heading text-right mb-0">{{ $booking }}</h5>
                                     <p class="info-text text-right mb-3">Ruangan <br>Dipesan</p>
                                 </div>
-                            </div>s
+                            </div>
                         </div>
                         <a class="info-link mb-0 text-xs pt-3 small-box-footer" href="{{route('transaction.index')}}">Lihat Semua Data <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
                     </div>

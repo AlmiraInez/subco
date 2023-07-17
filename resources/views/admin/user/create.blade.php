@@ -71,13 +71,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Assign Employee</label>
+                            <label class="col-sm-2 col-form-label">Assign Tenan</label>
                             <div class="col-sm-4">
                                 <label> <input class="form-control" type="checkbox" id="assign" name="assign_employee"> <i></i></label>
                             </div>
                         </div>
                         <div class="form-group row" id="employee">
-                            <label for="email" class="col-sm-2 col-form-label">Employee</label>
+                            <label for="email" class="col-sm-2 col-form-label">Tenan</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control select2" id="employee_id" name="employee_id" placeholder="Employee"
                                     required>
@@ -150,7 +150,7 @@
         });
         $("#employee_id").select2({
             ajax: {
-                url: "{{route('employees.select')}}",
+                url: "{{route('tenant.select')}}",
                 type: 'GET',
                 dataType: 'json',
                 data: function (term, page) {
