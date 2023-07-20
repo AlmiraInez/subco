@@ -59,7 +59,7 @@
                 @foreach ($product as $prd)
                <div class="col-md-4">
 					<div class="card mb-4 box-shadow">
-						<img class="card-img-top" src="{{ asset('img/subco.jpg') }}" alt="Card image cap">
+						<img class="card-img-top" src="{{asset('assets/rooms/img/'.$prd->img1)}}" alt="Card image cap">
 						<div class="card-body">
 						<p class="card-text"><b>{{ $prd->name }}</b></p>
 						<span> <b> Kategori :</b> {{ $prd->category->category }} <br></span>

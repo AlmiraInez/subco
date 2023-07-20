@@ -16,7 +16,7 @@
 @endpush
 
 @section('content')
-<form id="form" action="{{ route('room.store') }}" method="post" autocomplete="off">
+<form id="form" action="{{ route('room.update',['id'=>$room->id]) }}" method="post" autocomplete="off">
 <div class="wrapper wrapper-content">
         {{ csrf_field() }}
         @method('PUT')
@@ -111,7 +111,7 @@
                     <select name="status" id="status" class="form-control select2" data-placeholder="Select Status">
                       {{-- <option value=""></option> --}}
                       <option @if($room->status == 1) selected @endif value="1">Aktif</option>
-					  <option @if($room->status == 0) selected @endif value="0">Tidak Aktif</option>
+					            <option @if($room->status == 2) selected @endif value="2">Tidak Aktif</option>
                     </select>
                   </div>
                 </div>
@@ -133,49 +133,49 @@
                     <label for="video" class="col-sm-2 col-form-label">Vidio</label>
                     <div class="col-sm-6">
                         <input type="file" class="form-control" name="video" id="video" accept="video/*" 
-                           data-overwrite-initial="false" />
+                           value="{{ $room->video }}" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="image1" class="col-sm-2 col-form-label">Gambar 1</label>
                     <div class="col-sm-6">
                         <input type="file" class="form-control" name="image1" id="image1" accept="image/*" 
-                           data-overwrite-initial="false" />
+                           value="{{ $room->img1 }}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="image2" class="col-sm-2 col-form-label">Gambar 2</label>
                     <div class="col-sm-6">
                         <input type="file" class="form-control" name="image2" id="image2" accept="image/*" 
-                           data-overwrite-initial="false" />
+                           data-overwrite-initial="false" value="{{ $room->img2 }}" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="image3" class="col-sm-2 col-form-label">Gambar 3</label>
                     <div class="col-sm-6">
                         <input type="file" class="form-control" name="image3" id="image3" accept="image/*" 
-                           data-overwrite-initial="false" />
+                           data-overwrite-initial="false" value="{{ $room->img3 }}" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="image4" class="col-sm-2 col-form-label">Gambar 4</label>
                     <div class="col-sm-6">
                         <input type="file" class="form-control" name="image4" id="image4" accept="image/*" 
-                           data-overwrite-initial="false" />
+                           data-overwrite-initial="false" value="{{ $room->img4 }}" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="image5" class="col-sm-2 col-form-label">Gambar 5</label>
                     <div class="col-sm-6">
                         <input type="file" class="form-control" name="image5" id="image5" accept="image/*" 
-                           data-overwrite-initial="false" />
+                           data-overwrite-initial="false" value="{{ $room->img5 }}" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="image6" class="col-sm-2 col-form-label">Gambar 6</label>
                     <div class="col-sm-6">
                         <input type="file" class="form-control" name="image6" id="image6" accept="image/*" 
-                           data-overwrite-initial="false" />
+                           data-overwrite-initial="false" value="{{ $room->img6 }}" />
                     </div>
                 </div>
             </div>
@@ -314,6 +314,7 @@
             });
           $( "#fasility" ).select2({
             multiple: true,
+            tags: true,
             ajax: {
               url: "{{route('fasility.select')}}",
               type:'GET',
@@ -346,6 +347,26 @@
               $('#form').validate().form();
             }
           });
+          $.ajax({
+                url:  "{{route('room.multi')}}",
+                type: 'POST',
+                dataType: 'json',
+                data: { 
+               room_id: {{$room->id}},
+              _token: "{{csrf_token()}}" 
+              },
+                success: function (result) {                  
+               console.log(result.results);
+            var data = [];
+                $.each(result.results, function(key, val){
+            //    console.log(val.workgroup_id);
+            data.push({ id:val.fasility_id,text:val.fasility_name });
+              // $("#workgroup").append('<option value="'+val.workgroup_id+'" selected>'+val.workgroup_name+'</option>');
+          });
+				  $("#fasility").select2('data',data).trigger('change');    
+
+          }
+        });
           //Bootstrap fileinput component
          $("#video").fileinput({
             browseClass: "btn btn-{{config('configs.app_theme')}}",
@@ -354,7 +375,7 @@
             maxFileCount: 6,
             dropZoneEnabled: false,
             initialPreviewFileType: 'image',
-           
+            initialPreview: '<video width="200" height="100" controls  class="kv-preview-data file-preview-video"><source src="{{asset('assets/rooms/video/'.$room->video)}}" type="video/mp4"></video>',
             theme: 'explorer-fas'
         });
 
@@ -371,7 +392,7 @@
               maxFileCount: 6,
               dropZoneEnabled: false,
               initialPreviewFileType: 'image',
-            
+            	initialPreview: '<img src="{{asset('assets/rooms/img/'.$room->img1)}}" class="kv-preview-data file-preview-image">',
               theme: 'explorer-fas'
           });
 
@@ -388,7 +409,7 @@
               maxFileCount: 6,
               dropZoneEnabled: false,
               initialPreviewFileType: 'image',
-            
+              initialPreview: '<img src="{{asset('assets/rooms/img/'.$room->img2)}}" class="kv-preview-data file-preview-image">',
               theme: 'explorer-fas'
           });
 
@@ -405,7 +426,7 @@
               maxFileCount: 6,
               dropZoneEnabled: false,
               initialPreviewFileType: 'image',
-            
+              initialPreview: '<img src="{{asset('assets/rooms/img/'.$room->img3)}}" class="kv-preview-data file-preview-image">',
               theme: 'explorer-fas'
           });
 
@@ -422,7 +443,7 @@
               maxFileCount: 6,
               dropZoneEnabled: false,
               initialPreviewFileType: 'image',
-            
+              initialPreview: '<img src="{{asset('assets/rooms/img/'.$room->img4)}}" class="kv-preview-data file-preview-image">',
               theme: 'explorer-fas'
           });
 
@@ -433,7 +454,7 @@
               maxFileCount: 6,
               dropZoneEnabled: false,
               initialPreviewFileType: 'image',
-            
+              initialPreview: '<img src="{{asset('assets/rooms/img/'.$room->img5)}}" class="kv-preview-data file-preview-image">',
               theme: 'explorer-fas'
           });
           $("#image6").fileinput({
@@ -443,6 +464,7 @@
               maxFileCount: 6,
               dropZoneEnabled: false,
               initialPreviewFileType: 'image',
+              initialPreview: '<img src="{{asset('assets/rooms/img/'.$room->img6)}}" class="kv-preview-data file-preview-image">',
               theme: 'explorer-fas'
           });
        

@@ -227,13 +227,25 @@ $(function(){
             },
             
             { render: function ( data, type, row ) {
-                return `<div class="dropdown">
+                  if (row.status == 1 && row.status_approval != 2) {
+                    return `<div class="dropdown">
+                    <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item delete" href="#" data-id="${row.id}"><i class="fa fa-trash mr-2"></i> Delete</a></li>
+                        <li><a class="dropdown-item" href="{{url('admin/transaction/booking')}}/${row.id}"><i class="fas fa-info mr-3"></i> Detail</a></li>
+                    </ul></div>`
+                  }else{
+                    return `<div class="dropdown">
                     <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{url('admin/transaction/booking')}}/${row.id}"><i class="fas fa-info mr-3"></i> Detail</a></li>
                     </ul></div>`
+                  }
+                
             },targets: [9]
             }
         ],
@@ -311,7 +323,7 @@ $(function(){
                             id: id
                         };
 						$.ajax({
-							url: `{{url('admin/tenant')}}/${id}`,
+							url: `{{url('admin/transaction/booking')}}/${id}`,
 							dataType: 'json',
 							data:data,
 							type:'DELETE',

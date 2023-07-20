@@ -109,7 +109,7 @@
                     <select name="status" id="status" class="form-control select2" data-placeholder="Select Status">
                       {{-- <option value=""></option> --}}
                       <option value="1">Aktif</option>
-                      <option value="0">Non Aktif</option>
+                      <option value="2">Non Aktif</option>
                     </select>
                   </div>
                 </div>

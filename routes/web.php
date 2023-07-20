@@ -597,6 +597,7 @@ Route::group(['prefix' => 'admin'], function () {
         //Route Fasility
         Route::get('/room/read', 'Admin\RoomController@read')->name('room.read');
         Route::get('/room/select', 'Admin\RoomController@select')->name('room.select');
+        Route::post('/room/multi', 'Admin\RoomController@multi')->name('room.multi');
         Route::resource('/room', 'Admin\RoomController');
 
         //Route Fasility

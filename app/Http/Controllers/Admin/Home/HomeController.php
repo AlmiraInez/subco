@@ -34,7 +34,7 @@ class HomeController extends Controller
      $name = $request->get('name');
      $category = $request->get('category_id');
         if (!empty($name) && !empty($category)) {
-            $product = Room::with('category')->where([['name', 'ilike', $name], ['category_id', '=',$category]])->paginate(8);
+            $product = Room::with('category')->where([['name', 'like', $name], ['category_id', '=',$category]])->paginate(8);
             return view('admin.home.index', compact('product'));
         }else if(!empty($name) && empty($category)){
             $product = Room::with('category')->where('name','!=', $name)->paginate(8);

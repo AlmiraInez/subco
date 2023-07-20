@@ -214,7 +214,7 @@ class BookingController extends Controller
             'start_date'       => $request->start_date,
             'end_date'         => $request->end_date,
             'start_time'       => $request->start_time,
-            'end_time'         => $request->end_time,
+            'end_time'         => $request->finish_time,
             'notes'            => $request->notes,
             'status'           => Transaction::STAT_BOOKING,
             'stat_approval'    => Transaction::STAT_PROCCESSING,
@@ -363,8 +363,23 @@ class BookingController extends Controller
      * @param  \App\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transaction $transaction)
+    public function destroy($id)
     {
-        //
+        try {
+            $transaction = Transaction::find($id);
+            $room = Room::find($transaction->room_id);
+            $room->status = 1;
+            $room->save();
+            $transaction->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'status'     => false,
+                'message'     => 'Data has been used to another page'
+            ], 400);
+        }
+        return response()->json([
+            'status'     => true,
+            'message' => 'Success delete data'
+        ], 200);
     }
 }
