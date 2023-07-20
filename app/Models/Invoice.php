@@ -10,8 +10,8 @@ use Alfa6661\AutoNumber\AutoNumberTrait;
 
 class Invoice extends Model
 {
-    const STAT_UNPAID = 0;
-    const STAT_PAID= 1;
+    const STAT_UNPAID = 1;
+    const STAT_PAID= 2;
     const STAT_PROCCESSING = 1;
     const STAT_APPROVED = 2;
     const STAT_REJECTED = 3;

@@ -10,9 +10,9 @@ use Alfa6661\AutoNumber\AutoNumberTrait;
 
 class Transaction extends Model
 {
-    const STAT_BOOKING = 0;
-    const STAT_CHECKIN = 1;
-    const STAT_CHECKOUT = 2;
+    const STAT_BOOKING = 1;
+    const STAT_CHECKIN = 2;
+    const STAT_CHECKOUT = 3;
     const STAT_PROCCESSING = 1;
     const STAT_APPROVED = 2;
     const STAT_REJECTED = 3;

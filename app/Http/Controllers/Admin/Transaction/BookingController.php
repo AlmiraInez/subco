@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Transaction;
 
 use App\Models\Transaction;
 use App\Models\Room;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -40,7 +40,11 @@ class BookingController extends Controller
         $sort = $request->columns[$request->order[0]['column']]['data'];
         $dir = $request->order[0]['dir'];
         $code = strtoupper($request->code);
-        // $name = strtoupper($request->name);
+        $company = strtoupper($request->company);
+        $tenant_id = $request->tenant_id;
+        $status = $request->status;
+        $status_approval = $request->status_approval;
+        $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
 
         //Count Data
         $query = DB::table('transactions');
@@ -50,8 +54,20 @@ class BookingController extends Controller
                      'room_categories.category as room_category');
         $query->leftJoin('tenants', 'tenants.id', '=', 'transactions.tenant_id');
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'transactions.room_category');
-        // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if($transaction_date){
+            $query->where("transaction_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("transactions.tenant_id", $tenant_id);
+        }
+        if ($status) {
+            $query->where("transactions.status", "=", $status);
+        }
+        if ($status_approval) {
+            $query->where("transactions.stat_approval", $status_approval);
+        }
         $recordsTotal = $query->count();
 
         //Select Pagination
@@ -64,6 +80,19 @@ class BookingController extends Controller
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'transactions.room_category');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("transaction_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("transactions.tenant_id", $tenant_id);
+        }
+        if ($status) {
+            $query->where("transactions.status","=", $status);
+        }
+        if ($status_approval) {
+            $query->where("transactions.stat_approval", $status_approval);
+        }
         $query->offset($start);
         $query->limit($length);
         $query->orderBy($sort, $dir);

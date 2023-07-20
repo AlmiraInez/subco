@@ -121,7 +121,7 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                       <label>Status Pembayaran<b class="text-danger">*</b></label>
-                      @if($transaction->payment_status == 0)
+                      @if($transaction->payment_status == 1)
                       <span class="badge badge-warning">Belum Dibayar</span>
                       @else
                        <span class="badge badge-success">Lunas</span>

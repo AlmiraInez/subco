@@ -37,6 +37,8 @@ class RoomController extends Controller
         $dir = $request->order[0]['dir'];
         // $code = strtoupper($request->code);
         $name = strtoupper($request->name);
+        $location = strtoupper($request->location);
+
 
         //Count Data
         $query = DB::table('rooms');
@@ -44,6 +46,8 @@ class RoomController extends Controller
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'rooms.category_id');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(name) like '%$name%'");
+        $query->whereRaw("upper(location) like '%$location%'");
+
         $recordsTotal = $query->count();
 
         //Select Pagination
@@ -52,6 +56,8 @@ class RoomController extends Controller
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'rooms.category_id');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(name) like '%$name%'");
+        $query->whereRaw("upper(location) like '%$location%'");
+
         $query->offset($start);
         $query->limit($length);
         $query->orderBy($sort, $dir);

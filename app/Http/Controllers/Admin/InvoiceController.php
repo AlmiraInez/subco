@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Invoice;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -35,6 +36,10 @@ class InvoiceController extends Controller
         $sort = $request->columns[$request->order[0]['column']]['data'];
         $dir = $request->order[0]['dir'];
         $code = strtoupper($request->code);
+        $company = strtoupper($request->company);
+        $tenant_id = $request->tenant_id;
+        $status = $request->status;
+        $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
         // $name = strtoupper($request->name);
 
         //Count Data
@@ -49,6 +54,16 @@ class InvoiceController extends Controller
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'invoices.room_category');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("invoice_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("invoices.tenant_id", $tenant_id);
+        }
+        if ($status) {
+            $query->where("invoices.payment_status", "=", $status);
+        }
         $recordsTotal = $query->count();
 
         //Select Pagination
@@ -63,6 +78,16 @@ class InvoiceController extends Controller
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'invoices.room_category');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("invoice_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("invoices.tenant_id", $tenant_id);
+        }
+        if ($status) {
+            $query->where("invoices.payment_status", "=", $status);
+        }
         $query->offset($start);
         $query->limit($length);
         $query->orderBy($sort, $dir);

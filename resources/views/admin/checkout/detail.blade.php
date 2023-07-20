@@ -13,8 +13,8 @@
 @endsection
 
 @push('breadcrump')
-<li class="breadcrumb-item"><a href="{{route('checkin.index')}}">Checkin Ruangan</a></li>
-<li class="breadcrumb-item active">Detail Checkin Ruangan</li>
+<li class="breadcrumb-item"><a href="{{route('checkout.index')}}">Checkout Ruangan</a></li>
+<li class="breadcrumb-item active">Detail Checkout Ruangan</li>
 @endpush
 
 @section('content')
@@ -79,6 +79,10 @@
                         <div class="col-md-4"><b>Tgl Checkin</b></div>
                         <div class="col-md-8">{{ $transaction->checkin_date }}</div>
                     </div>
+                    <div class="row mb-3 col-md-6">
+                        <div class="col-md-4"><b>Tgl Checkin</b></div>
+                        <div class="col-md-8">{{ $transaction->checkout_date }}</div>
+                    </div>
                     
                 </div>
                 </div>           
@@ -105,8 +109,17 @@
                 <div class="col-sm-12">
                   <!-- text input -->
                   <div class="form-group">
-                    <label>Notes</label>
+                    <label>Catatan Checkin</label>
                     {{ $transaction->note_checkin }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>Catatan Checkout</label>
+                    {{ $transaction->note_checkout }}
                   </div>
                 </div>
               </div>
@@ -136,7 +149,14 @@
                     </div>
                   </div>
                 </div>
-              <div style="height: 85px;"></div>
+                <div class="col-lg-12">
+                 <div class="row">
+                   <div class="form-group">
+                        <label for="image1" class="col-sm-12 col-form-label">Dokumen Checkout</label>
+                        {{ link_to_asset($transaction->doc2, 'Buka Dokumen Checkout!') }}
+                    </div>
+                  </div>
+                </div>
           </div>
           <div class="overlay d-none">
             <i class="fa fa-2x fa-sync-alt fa-spin"></i>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Payment;
 use App\Models\Invoice;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +36,10 @@ class PaymentApprovalController extends Controller
         $sort = $request->columns[$request->order[0]['column']]['data'];
         $dir = $request->order[0]['dir'];
         $code = strtoupper($request->code);
+        $company = strtoupper($request->company);
+        $tenant_id = $request->tenant_id;
+        $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
+        // $name = strtoupper($request->name);
         // $name = strtoupper($request->name);
 
         //Count Data
@@ -54,8 +58,16 @@ class PaymentApprovalController extends Controller
         $query->leftJoin('rooms', 'rooms.id', '=', 'payments.room_id');
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'payments.room_category');
         // $query->whereRaw("upper(code) like '%$code%'");
-         $query->where("payments.stat_approval", "=", Payment::STAT_PROCCESSING);
+        $query->where("payments.stat_approval", "=", Payment::STAT_PROCCESSING);
         $query->whereRaw("upper(payments.code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("payment_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("payment.tenant_id", $tenant_id);
+        }
+       
         $recordsTotal = $query->count();
 
         //Select Pagination
@@ -77,6 +89,13 @@ class PaymentApprovalController extends Controller
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->where("payments.stat_approval", "=", Payment::STAT_PROCCESSING);
         $query->whereRaw("upper(payments.code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("payment_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("payment.tenant_id", $tenant_id);
+        }
         $query->offset($start);
         $query->limit($length);
         $query->orderBy($sort, $dir);

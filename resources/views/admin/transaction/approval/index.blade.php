@@ -3,6 +3,8 @@
 @section('title', 'Persetujuan Pesan Ruangan')
 @section('stylesheets')
 <link href="{{asset('adminlte/component/dataTables/css/datatables.min.css')}}" rel="stylesheet">
+<link href="{{asset('adminlte/component/daterangepicker/daterangepicker.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{asset('adminlte/component/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}">
 @endsection
 
 @push('breadcrump')
@@ -18,10 +20,6 @@
                     <h3 class="card-title">Daftar Persetujuan Pesan Ruangan</h3>
                     <!-- tools box -->
                     <div class="pull-right card-tools">
-                        <a href="{{route('admin.transaction.booking.create')}}" class="btn btn-{{ config('configs.app_theme')}} btn-sm text-white" data-toggle="tooltip"
-                            title="Tambah">
-                            <i class="fa fa-plus"></i>
-                        </a>
                         <a href="#" onclick="filter()" class="btn btn-default btn-sm" data-toggle="tooltip" title="Search">
                             <i class="fa fa-search"></i>
                         </a>
@@ -64,23 +62,43 @@
             <div class="modal-body">
                 <form id="form-search" autocomplete="off">
                     <div class="row">
-                        <div class="col-md-6">
+                       <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="uomcategory_name">Category</label>
-                                <input type="text" name="uomcategory_name" class="form-control" placeholder="Category">
+                                <label class="control-label" for="uomcategory_name">Kode Transaksi</label>
+                                <input type="text" name="code" class="form-control" placeholder="Kode Transaksi">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="uom_name">Name</label>
-                                <input type="text" name="uom_name" class="form-control" placeholder="Name">
+                                <label class="control-label" for="uom_name">Tanggal Transaksi</label>
+                                 <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" name="transaction_date" class="form-control datepicker"
+                                        id="transaction_date" placeholder="Tgl Transaksi">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="uom_name">Nama Tenan</label>
+                                <input type="text" id="tenant_id" name="tanant_id" class="form-control" placeholder="Nama Tenan">
+                            </div>  
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="uomcategory_name">Perusahaan</label>
+                                <input type="text" name="company" class="form-control" placeholder="Perusahaan">
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button form="form-search" type="submit" class="btn btn-primary" title="Apply"><i class="fa fa-search"></i></button>
+                <button form="form-search" type="submit" class="btn btn-{{ config('configs.app_theme') }}" title="Apply"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
@@ -88,8 +106,10 @@
 @endsection
 
 @push('scripts')
-<script src="{{asset('adminlte/component/dataTables/js/datatables.min.js')}}"></script>
+<script src="{{asset('adminlte/component/dataTables/js/datatables.min.js')}}"><<script src="{{asset('adminlte/component/daterangepicker/moment.min.js')}}"></script>
 <script src="{{asset('assets/js/plugins/bootbox/bootbox.min.js')}}"></script>
+<script src="{{asset('adminlte/component/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('adminlte/component/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script><script src="{{asset('assets/js/plugins/bootbox/bootbox.min.js')}}"></script>
 <script type="text/javascript">
 function filter(){
     $('#add-filter').modal('show');
@@ -108,10 +128,14 @@ $(function(){
             url: "{{route('admin.transaction.approval.read')}}",
             type: "GET",
             data:function(data){
-                var uomcategory_name = $('#form-search').find('input[name=uomcategory_name]').val();
-                var uom_name = $('#form-search').find('input[name=uom_name]').val();
-                data.uom_name = uom_name;
-                data.uomcategory_name = uomcategory_name;
+                 var code = $('#form-search').find('input[name=code]').val();
+                var transaction_date = $('#form-search').find('input[name=transaction_date]').val();
+                var company = $('#form-search').find('input[name=company]').val();
+                var tenant_id = $('#form-search').find('input[name=tenant_id]').val();
+                data.code = code;
+                data.transaction_date = transaction_date;
+                data.company = company;
+                data.tenant_id = tenant_id;
             }
         },
         columnDefs:[
@@ -147,9 +171,9 @@ $(function(){
             },
             {
             render: function (data, type, row) {
-                    if (row.status == 0) {
+                    if (row.status == 1) {
                         return `<span class="badge badge-warning">Booking</span>`
-                    }else if(row.status == 1) {
+                    }else if(row.status == 2) {
                         return `<span class="badge badge-success">Checkin</span>`
                     }else{
                         return `<span class="badge badge-danger">Checkout</span>`
@@ -190,6 +214,38 @@ $(function(){
             { data: "stat_approval" },
             { data: "id" },
         ]
+    });
+    $('input[name=transaction_date]').datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd'
+    });
+    $( "#tenant_id" ).select2({
+    ajax: {
+        url: "{{route('tenant.select')}}",
+        type:'GET',
+        dataType: 'json',
+        data: function (term,page) {
+        return {
+            name:term,
+            page:page,
+            limit:30,
+        };
+        },
+        results: function (data,page) {
+        var more = (page * 30) < data.total;
+        var option = [];
+        $.each(data.rows,function(index,item){
+            option.push({
+            id:item.id,
+            text: `${item.name} - ${item.company_name}`
+            });
+        });
+        return {
+            results: option, more: more,
+        };
+        },
+    },
+    allowClear: true,
     });
     $('#form-search').submit(function(e){
         e.preventDefault();

@@ -62,21 +62,21 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="uomcategory_name">Category</label>
-                                <input type="text" name="uomcategory_name" class="form-control" placeholder="Category">
+                                <label class="control-label" for="uomcategory_name">Nama</label>
+                                <input type="text" name="name" class="form-control" placeholder="Category">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="uom_name">Name</label>
-                                <input type="text" name="uom_name" class="form-control" placeholder="Name">
+                                <label class="control-label" for="uom_name">Perusahaan</label>
+                                <input type="text" name="company" class="form-control" placeholder="Name">
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button form="form-search" type="submit" class="btn btn-primary" title="Apply"><i class="fa fa-search"></i></button>
+                <button form="form-search" type="submit" class="btn btn-{{ config('configs.app_theme') }}" title="Cari"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
@@ -104,10 +104,10 @@ $(function(){
             url: "{{route('tenant.read')}}",
             type: "GET",
             data:function(data){
-                var uomcategory_name = $('#form-search').find('input[name=uomcategory_name]').val();
-                var uom_name = $('#form-search').find('input[name=uom_name]').val();
-                data.uom_name = uom_name;
-                data.uomcategory_name = uomcategory_name;
+                var name = $('#form-search').find('input[name=name]').val();
+                var company = $('#form-search').find('input[name=company]').val();
+                data.name = name;
+                data.company = company;
             }
         },
         columnDefs:[

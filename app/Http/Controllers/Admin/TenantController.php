@@ -35,12 +35,15 @@ class TenantController extends Controller
         $dir = $request->order[0]['dir'];
         // $code = strtoupper($request->code);
         $name = strtoupper($request->name);
+        $company = strtoupper($request->company);
+
 
         //Count Data
         $query = DB::table('tenants');
         $query->select('tenants.*');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(name) like '%$name%'");
+        $query->whereRaw("upper(company_name) like '%$company%'");
         $recordsTotal = $query->count();
 
         //Select Pagination
@@ -48,6 +51,7 @@ class TenantController extends Controller
         $query->select('tenants.*');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(name) like '%$name%'");
+        $query->whereRaw("upper(company_name) like '%$company%'");
         $query->offset($start);
         $query->limit($length);
         $query->orderBy($sort, $dir);

@@ -3,6 +3,8 @@
 @section('title', 'Pembayaran')
 @section('stylesheets')
 <link href="{{asset('adminlte/component/dataTables/css/datatables.min.css')}}" rel="stylesheet">
+<link href="{{asset('adminlte/component/daterangepicker/daterangepicker.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{asset('adminlte/component/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}">
 @endsection
 
 @push('breadcrump')
@@ -18,10 +20,6 @@
                     <h3 class="card-title">Daftar Pembayaran</h3>
                     <!-- tools box -->
                     <div class="pull-right card-tools">
-                        <a href="{{route('admin.transaction.booking.create')}}" class="btn btn-{{ config('configs.app_theme')}} btn-sm text-white" data-toggle="tooltip"
-                            title="Tambah">
-                            <i class="fa fa-plus"></i>
-                        </a>
                         <a href="#" onclick="filter()" class="btn btn-default btn-sm" data-toggle="tooltip" title="Search">
                             <i class="fa fa-search"></i>
                         </a>
@@ -59,26 +57,59 @@
                 <h4 class="modal-title">Filter</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			</div>
-            <div class="modal-body">
+             <div class="modal-body">
                 <form id="form-search" autocomplete="off">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="uomcategory_name">Category</label>
-                                <input type="text" name="uomcategory_name" class="form-control" placeholder="Category">
+                                <label class="control-label" for="uomcategory_name">Kode Pembayaran</label>
+                                <input type="text" name="code" class="form-control" placeholder="Kode Transaksi">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="uom_name">Name</label>
-                                <input type="text" name="uom_name" class="form-control" placeholder="Name">
+                                <label class="control-label" for="uom_name">Tanggal Pembayaran</label>
+                                 <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" name="transaction_date" class="form-control datepicker"
+                                        id="transaction_date" placeholder="Tgl Transaksi">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="uom_name">Nama Tenan</label>
+                                <input type="text" id="tenant_id" name="tanant_id" class="form-control" placeholder="Nama Tenan">
+                            </div>  
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="uomcategory_name">Perusahaan</label>
+                                <input type="text" name="company" class="form-control" placeholder="Perusahaan">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="description">Status Persetujuan</label>
+                                <select name="status_approval" id="status_approval" class="form-control select2" style="width: 100%"
+                                aria-hidden="true">
+                                    <option value="">All</option>
+                                    <option value="1">Diproses</option>
+                                    <option value="2">Diterima</option>
+                                    <option value="3">Ditolak</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button form="form-search" type="submit" class="btn btn-primary" title="Apply"><i class="fa fa-search"></i></button>
+                <button form="form-search" type="submit" class="btn btn-{{ config('configs.app_theme') }}" title="Apply"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
@@ -106,10 +137,16 @@ $(function(){
             url: "{{route('payment.read')}}",
             type: "GET",
             data:function(data){
-                var uomcategory_name = $('#form-search').find('input[name=uomcategory_name]').val();
-                var uom_name = $('#form-search').find('input[name=uom_name]').val();
-                data.uom_name = uom_name;
-                data.uomcategory_name = uomcategory_name;
+                var code = $('#form-search').find('input[name=code]').val();
+                var transaction_date = $('#form-search').find('input[name=transaction_date]').val();
+                var company = $('#form-search').find('input[name=company]').val();
+                var tenant_id = $('#form-search').find('input[name=tenant_id]').val();
+                var status_approval = $('#form-search').find('select[name=status_approval]').val();
+                data.code = code;
+                data.transaction_date = transaction_date;
+                data.company = company;
+                data.status_approval = status_approval;
+                data.tenant_id = tenant_id;
             }
         },
         columnDefs:[
@@ -182,7 +219,40 @@ $(function(){
         e.preventDefault();
         dataTable.draw();
         $('#add-filter').modal('hide');
-    })
+    });
+     $("#status_approval").select2();
+     $('input[name=transaction_date]').datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd'
+    });
+    $( "#tenant_id" ).select2({
+    ajax: {
+        url: "{{route('tenant.select')}}",
+        type:'GET',
+        dataType: 'json',
+        data: function (term,page) {
+        return {
+            name:term,
+            page:page,
+            limit:30,
+        };
+        },
+        results: function (data,page) {
+        var more = (page * 30) < data.total;
+        var option = [];
+        $.each(data.rows,function(index,item){
+            option.push({
+            id:item.id,
+            text: `${item.name} - ${item.company_name}`
+            });
+        });
+        return {
+            results: option, more: more,
+        };
+        },
+    },
+    allowClear: true,
+    });
     $(document).on('click','.edit',function(){
       var id = $(this).data('id');
       bootbox.confirm({

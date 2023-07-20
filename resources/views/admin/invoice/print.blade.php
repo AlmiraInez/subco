@@ -63,7 +63,7 @@ use app\components\Helper;
 				</tr>
 				<tr>
 					<td style="padding: 1px;">Status Pembayaran</td>
-					<td style="padding: 1px;">: {{ $invoice->payment_status == 0 ? 'Belum Dibayar' : 'Lunas' }}</td> 
+					<td style="padding: 1px;">: {{ $invoice->payment_status == 1 ? 'Belum Dibayar' : 'Lunas' }}</td> 
 				</tr>
 			</table>
 		</td>

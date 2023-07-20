@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Transaction;
 use App\Models\Transaction;
 use App\Models\Room;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,9 @@ class ApprovalController extends Controller
         $sort = $request->columns[$request->order[0]['column']]['data'];
         $dir = $request->order[0]['dir'];
         $code = strtoupper($request->code);
+        $company = strtoupper($request->company);
+        $tenant_id = $request->tenant_id;
+        $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
         // $name = strtoupper($request->name);
 
         //Count Data
@@ -51,6 +55,13 @@ class ApprovalController extends Controller
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->where("stat_approval", "=", Transaction::STAT_PROCCESSING);
         $query->whereRaw("upper(code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("transaction_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("transactions.tenant_id", $tenant_id);
+        }
         $recordsTotal = $query->count();
 
         //Select Pagination
@@ -66,6 +77,13 @@ class ApprovalController extends Controller
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->where("stat_approval", "=", Transaction::STAT_PROCCESSING);
         $query->whereRaw("upper(code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("transaction_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("transactions.tenant_id", $tenant_id);
+        }
         $query->offset($start);
         $query->limit($length);
         $query->orderBy($sort, $dir);

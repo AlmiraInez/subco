@@ -63,8 +63,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label" for="name">Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Name">
+                                <label class="control-label" for="name">Fasilitas</label>
+                                <input type="text" name="fasility" class="form-control" placeholder="Fasilitas">
                             </div>
                         </div>
                     </div>
@@ -99,8 +99,8 @@ $(function(){
             url: "{{route('fasility.read')}}",
             type: "GET",
             data:function(data){
-                var name = $('#form-search').find('input[name=name]').val();
-                data.parent_name = name;
+                var fasility = $('#form-search').find('input[name=fasility]').val();
+                data.fasility = fasility;
             }
         },
         columnDefs:[

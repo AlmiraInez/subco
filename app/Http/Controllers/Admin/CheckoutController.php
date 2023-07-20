@@ -6,6 +6,7 @@ use App\Models\Fasility;
 use App\Models\Room;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -68,6 +69,11 @@ class CheckoutController extends Controller
         $sort = $request->columns[$request->order[0]['column']]['data'];
         $dir = $request->order[0]['dir'];
         $code = strtoupper($request->code);
+        $code = strtoupper($request->code);
+        $company = strtoupper($request->company);
+        $tenant_id = $request->tenant_id;
+        $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
+
         // $name = strtoupper($request->name);
 
         //Count Data
@@ -83,6 +89,13 @@ class CheckoutController extends Controller
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->where("status", "=", Transaction::STAT_CHECKOUT);
         $query->whereRaw("upper(code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("transaction_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("transactions.tenant_id", $tenant_id);
+        }
         $recordsTotal = $query->count();
 
         //Select Pagination
@@ -98,6 +111,13 @@ class CheckoutController extends Controller
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->where("status", "=", Transaction::STAT_CHECKOUT);
         $query->whereRaw("upper(code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("transaction_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("transactions.tenant_id", $tenant_id);
+        }
         $query->offset($start);
         $query->limit($length);
         $query->orderBy($sort, $dir);
@@ -223,7 +243,7 @@ class CheckoutController extends Controller
     {
         $transaction = Transaction::with(['tenant', 'room', 'category'])->findOrFail($id);
 
-        return view('admin.checkin.detail', compact('transaction'));
+        return view('admin.checkout.detail', compact('transaction'));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Payment;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +36,11 @@ class PaymentController extends Controller
         $sort = $request->columns[$request->order[0]['column']]['data'];
         $dir = $request->order[0]['dir'];
         $code = strtoupper($request->code);
+        $company = strtoupper($request->company);
+        $tenant_id = $request->tenant_id;
+        $status = $request->status;
+        $status_approval = $request->status_approval;
+        $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
         // $name = strtoupper($request->name);
 
         //Count Data
@@ -54,6 +60,16 @@ class PaymentController extends Controller
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'payments.room_category');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(payments.code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("payment_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("payment.tenant_id", $tenant_id);
+        }
+        if ($status_approval) {
+            $query->where("payments.stat_approval", $status_approval);
+        }
         $recordsTotal = $query->count();
 
         //Select Pagination
@@ -74,6 +90,16 @@ class PaymentController extends Controller
         $query->leftJoin('room_categories', 'room_categories.id', '=', 'payments.room_category');
         // $query->whereRaw("upper(code) like '%$code%'");
         $query->whereRaw("upper(payments.code) like '%$code%'");
+        $query->whereRaw("upper(tenants.company_name) like '%$company%'");
+        if ($transaction_date) {
+            $query->where("payment_date", $transaction_date);
+        }
+        if ($tenant_id) {
+            $query->where("payment.tenant_id", $tenant_id);
+        }
+        if ($status_approval) {
+            $query->where("payments.stat_approval", $status_approval);
+        }
         $query->offset($start);
         $query->limit($length);
         $query->orderBy($sort, $dir);
