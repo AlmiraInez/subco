@@ -170,9 +170,9 @@ $(function(){
             },
             {
             render: function (data, type, row) {
-                    if (row.status == 0) {
+                    if (row.status == 1) {
                         return `<span class="badge badge-warning">Booking</span>`
-                    }else if(row.status == 1) {
+                    }else if(row.status == 2) {
                         return `<span class="badge badge-success">Checkin</span>`
                     }else{
                         return `<span class="badge badge-danger">Checkout</span>`

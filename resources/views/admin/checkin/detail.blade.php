@@ -117,9 +117,9 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                       <label>Status <b class="text-danger">*</b></label>
-                      @if($transaction->status == 0)
+                      @if($transaction->status == 1)
                       <span class="badge badge-warning">Booking</span>
-                      @elseif($transaction->status == 1)
+                      @elseif($transaction->status == 2)
                       <span class="badge badge-success">Checkin</span>
                       @else
                        <span class="badge badge-danger">Checkout</span>
