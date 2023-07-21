@@ -37,6 +37,7 @@ Route::get('/check/reset_leave', 'Admin\CronController@check_reset_leave')->name
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('admin.register');
+    Route::post('/register/store', 'Auth\RegisterController@store')->name('admin.register.store');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.post');
     Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
     Route::group(['middleware' => 'auth:admin'], function () {

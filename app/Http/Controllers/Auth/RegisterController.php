@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Customer;
+use App\User;
+use App\Models\Tenant;
+use App\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -63,12 +67,65 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return Customer::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'status'=>0
+        // return Customer::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => Hash::make($data['password']),
+        //     'status'=>0
+        // ]);
+    }
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'         => 'required',
+            'username'     => 'required|unique:users',
+            'email'        => 'required|email|unique:users',
+            'password'     => 'required'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'     => false,
+                'message'     => $validator->errors()->first()
+            ], 400);
+        }
+        $tenant = Tenant::create([
+            'name'         => $request->name,
+            'birth_date'   => $request->birth_date,
+            'phone'        => $request->phone,
+            'gender'       => $request->gender,
+            'email'        => $request->email,
+            'title'        => $request->title,
+            'company_name' => $request->company_name,
+            'address'      => $request->address,
+        ]);
+        if (!$tenant) {
+            return response()->json([
+                'status' => false,
+                'message'     => $tenant
+            ], 400);
+        }
+        $user = User::create([
+            'name'            => $request->name,
+            'email'           => $request->email,
+            'username'        => $request->username,
+            'password'        => Hash::make($request->password),
+            'status'          => 1 ,
+            'assign_employee' => 1,
+            'employee_id'     => $tenant->id
+        ]);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message'     => $user
+            ], 400);
+        }
+        $role = Role::find(3);
+        $user->attachRole($role);
+        return response()->json([
+            'status'     => true,
+            'results'     => route('admin.login'),
+        ], 200);
     }
     public function showRegistrationForm()
     {

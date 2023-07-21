@@ -66,7 +66,7 @@
           </div>
           <div class="row d-flex h-100">
             <div class="col-sm-6 align-self-center">
-              {{-- <a href="{{route('admin.register')}}" class="text-{{ config('configs.app_theme') }}">Register?</a> --}}
+              <a href="{{route('admin.register')}}" class="text-{{ config('configs.app_theme') }}">Register?</a>
             </div>
             <div class="col-sm-6">
               <button type="submit" class="btn btn-dark float-right">Login</button>

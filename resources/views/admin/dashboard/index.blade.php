@@ -135,7 +135,7 @@
                 </div>
             </div>
 			@else
-			 <div class="row">
+			<div class="row">
                 <div class="col-md-6 col-sm-12 col-lg-4">
                     <div class="infobox-3 nunito">
                         <div class="row">

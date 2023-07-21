@@ -3,6 +3,8 @@
 @section('class', 'login-page')
 
 @section('stylesheets')
+<link rel="stylesheet" href="{{asset('adminlte/component/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminlte/component/select2/css/select2.bootstrap.min.css')}}">
 <link href="{{asset('adminlte/component/bootstrap-fileinput/css/fileinput.min.css')}}" rel="stylesheet">
 <link href="{{asset('adminlte/component/bootstrap-fileinput/themes/explorer-fas/theme.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('adminlte/component/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}">
@@ -15,13 +17,16 @@
   .login-section-wrapper {
     display: flex;
     flex-direction: column;
-    padding-right: 100px;
-    padding-left: 100px;
+    padding-top: 150px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+
   }
 
   .login-img {
     width: 100%;
-    height: 100vh;
+    height: 150vh;
     object-fit: cover;
     object-position: left;
   }
@@ -44,24 +49,31 @@
       {{-- </div> --}}
       <h3 class="text-center" style="margin-bottom: 50px;">Register</h3>
       <div class="login-wrapper">
-        <form action="{{route('admin.login.post')}}" method="post" autocomplete="off">
+        <form action="{{route('admin.register.store')}}" method="post" autocomplete="off">
           @csrf
           <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Nama <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Nama <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
                   <input type="text" class="form-control" name="name" id="name" placeholder="Nama" required>
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-3 col-form-label">No.HP <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Username <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
+                  <input type="text" class="form-control" name="username" id="username" placeholder="username" required>
+                   <span class="form-text text-muted">Ex. johndue (Only letters lowercase input).</span>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-4 col-form-label">No.HP <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
                   <input type="text" class="form-control" name="phone" id="phone" placeholder="No.HP" required>
               </div>
           </div>
            <!-- text input -->
           <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Tgl Lahir <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Tgl Lahir <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
                   <!-- <input type="date" class="form-control" placeholder="Birthaday" name="birth_date"> -->
                   <div class="input-group">
                       <div class="input-group-prepend">
@@ -75,8 +87,8 @@
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Jenis Kelamin</label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
+              <div class="col-sm-8">
                   <select name="gender" id="gender" class="form-control select2"
                       data-placeholder="Select Gender">
                       <option value="laki-laki">Laki-Laki</option>
@@ -85,8 +97,8 @@
               </div>
           </div>
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Email <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Email <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
                   <!-- <input type="date" class="form-control" placeholder="Birthaday" name="birth_date"> -->
                   <div class="input-group">
                       <div class="input-group-prepend">
@@ -100,32 +112,32 @@
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Jabatan <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Jabatan <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
                   <input type="text" class="form-control" name="title" id="title" placeholder="Jabatan" required>
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Nama Perusahaan <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Nama Perusahaan <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
                   <input type="text" class="form-control" name="company_name" id="company_name" placeholder="Nama Perusahaan" required>
               </div>
           </div>
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Alamat <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Alamat <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
                   <textarea type="text" class="form-control" name="address"placeholder="Alamat"> </textarea>
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Password <b class="text-danger">*</b></label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col-form-label">Password <b class="text-danger">*</b></label>
+              <div class="col-sm-8">
                   <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
               </div>
           </div>
           <div class="row d-flex h-100">
             <div class="col-sm-6 align-self-center">
-              <a href="#" class="text-{{ config('configs.app_theme') }}">Login?</a>
+              <a href="{{route('admin.login')}}" class="text-{{ config('configs.app_theme') }}">Login?</a>
             </div>
             <div class="col-sm-6">
               <button type="submit" class="btn btn-dark float-right">Register</button>
@@ -141,20 +153,20 @@
 </div>
 @endsection
 @push('scripts')
+<script src="{{asset('adminlte/component/select2/js/select2.min.js')}}"></script>
 <script src="{{asset('adminlte/component/validate/jquery.validate.min.js')}}"></script>
 <script src="{{asset('adminlte/component/bootstrap-fileinput/js/fileinput.min.js')}}"></script>
 <script src="{{asset('adminlte/component/bootstrap-fileinput/themes/explorer-fas/theme.min.js')}}"></script>
 <script src="{{asset('adminlte/component/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
 <script>
-    $(document).ready(function(){
-         $("#form").validate({
+  $(document).ready(function(){
+     $("#form").validate({
 			errorElement: 'div',
 			errorClass: 'invalid-feedback',
 			focusInvalid: false,
 			highlight: function (e) {
 				$(e).closest('.form-group').removeClass('has-success').addClass('was-validated has-error');
 			},
-
 			success: function (e) {
 				$(e).closest('.form-group').removeClass('has-error').addClass('has-success');
 				$(e).remove();
@@ -183,38 +195,38 @@
 					contentType: false,
 					dataType: 'json',
 					beforeSend: function () {
-                        $('.overlay').removeClass('hidden');
-                    }
+              $('.overlay').removeClass('hidden');
+          }
 				}).done(function(response){
                     $('.overlay').addClass('hidden');
 					if(response.status){
 						document.location = response.results;
-                        $.gritter.add({
-                            title: 'Success!',
-                            text: response.message,
-                            class_name: 'gritter-success',
-                            time: 1000,
-                        });
+            $.gritter.add({
+                title: 'Success!',
+                text: response.message,
+                class_name: 'gritter-success',
+                time: 1000,
+            });
 					}
 					else{
-                        $.gritter.add({
-                            title: 'Warning!',
-                            text: response.message,
-                            class_name: 'gritter-warning',
-                            time: 1000,
-                        });
+            $.gritter.add({
+                title: 'Warning!',
+                text: response.message,
+                class_name: 'gritter-warning',
+                time: 1000,
+            });
 					}
 					return;
 
 				}).fail(function(response){
-                    var response = response.responseJSON;
-                    $('.overlay').addClass('hidden');
-                    $.gritter.add({
-                        title: 'Error!',
-                        text: response.message,
-                        class_name: 'gritter-error',
-                        time: 1000,
-                    });
+          var response = response.responseJSON;
+          $('.overlay').addClass('hidden');
+          $.gritter.add({
+              title: 'Error!',
+              text: response.message,
+              class_name: 'gritter-error',
+              time: 1000,
+          });
 				})
 			}
 		});

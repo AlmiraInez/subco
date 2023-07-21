@@ -34,18 +34,18 @@ class HomeController extends Controller
      $name = $request->get('name');
      $category = $request->get('category_id');
         if (!empty($name) && !empty($category)) {
-            $product = Room::with('category')->where([['name', 'like', $name], ['category_id', '=',$category]])->paginate(8);
+            $product = Room::with('category')->where([['name', 'like', $name], ['category_id', '=',$category], ['status', '=', 1]])->paginate(8);
             return view('admin.home.index', compact('product'));
         }else if(!empty($name) && empty($category)){
-            $product = Room::with('category')->where('name','!=', $name)->paginate(8);
+            $product = Room::with('category')->where('name','!=', $name)->where('status', '=', 1)->paginate(8);
             return view('admin.home.index', compact('product'));
 
         }else if(!empty($category) && empty($name)){
-            $product = Room::with('category')->where('category_id', $category)->paginate(8);
+            $product = Room::with('category')->where('category_id', $category)->where('status', '=', 1)->paginate(8);
             return view('admin.home.index', compact('product'));
         }
         
-        $product = Room::with('category')->paginate(8);
+        $product = Room::with('category')->where('status', '=', 1)->paginate(8);
         return view('admin.home.index', compact('product'));
     }
 
