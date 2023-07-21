@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Ruangan')
+@section('title', 'Pesan Ruangan')
 @section('stylesheets')
 <link href="{{asset('adminlte/component/daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 <link href="{{asset('adminlte/component/bootstrap-fileinput/css/fileinput.min.css')}}" rel="stylesheet">
@@ -13,8 +13,8 @@
 @endsection
 
 @push('breadcrump')
-<li class="breadcrumb-item"><a href="{{route('admin.transaction.booking.index')}}">Ruangan</a></li>
-<li class="breadcrumb-item active">Create</li>
+<li class="breadcrumb-item"><a href="{{route('admin.transaction.booking.index')}}">Pesan Ruangan</a></li>
+<li class="breadcrumb-item active">Tambah</li>
 @endpush
 
 @section('content')
@@ -27,7 +27,7 @@
       <div class="col-lg-8">
         <div class="card card-{{ config('configs.app_theme') }} card-outline">
           <div class="card-header" style="height: 57px;">
-            <h3 class="card-title">Ruangan</h3>
+            <h3 class="card-title">Pesan Ruangan</h3>
           </div>
           <div class="card-body">
             <div class="row">
@@ -60,7 +60,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Tenan <b class="text-danger">*</b></label>
-                    <input type="text" class="form-control" name="tenant_id" id="tenant_id" placeholder="Pilih Tenan">
+                    <input type="text" class="form-control" value="{{ $user->tenant->name }}" readonly placeholder="Pilih Tenan">
                   </div>
                 </div>
               </div>

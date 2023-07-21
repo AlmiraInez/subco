@@ -11,8 +11,8 @@
 @endsection
 
 @push('breadcrump')
-<li class="breadcrumb-item"><a href="{{route('room.index')}}">Ruangan</a></li>
-<li class="breadcrumb-item active">Create</li>
+<li class="breadcrumb-item"><a href="{{route('booking.index')}}">Pesan Ruangan</a></li>
+<li class="breadcrumb-item active">Tambah</li>
 @endpush
 
 @section('content')

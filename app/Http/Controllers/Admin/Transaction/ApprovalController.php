@@ -118,7 +118,7 @@ class ApprovalController extends Controller
         $transaction->save();
         if($transaction->stat_approval == Transaction::STAT_REJECTED){
             $room = Room::find($transaction->room_id);
-            $room->status = 0;
+            $room->status = 1;
             $room->save();
         }else{            
             if($transaction){

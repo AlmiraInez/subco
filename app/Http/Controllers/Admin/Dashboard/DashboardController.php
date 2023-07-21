@@ -77,14 +77,27 @@ class DashboardController extends Controller
         // $data['estimateSalaryHourly'] = $this->estimateSalaryHourly();
         // $data['grossSalaryYear'] = $this->grossSalaryInYear();
         // $data['donutChart'] = $this->donutChart();
-        $roomavailable = Room::where('status', 1)->count('id');
-        $checkin = Transaction::where('status', Transaction::STAT_CHECKIN)->count('id');
-        $booking = Transaction::where('status', Transaction::STAT_BOOKING)->count('id');
-        $transapproval = Transaction::where('stat_approval', Transaction::STAT_PROCCESSING)->count('id');
-        $payapproval = Payment::where('stat_approval', Payment::STAT_PROCCESSING)->count('id');
-        $invapproval = Invoice::where('payment_status', Invoice::STAT_UNPAID)->count('id');
+        $id = auth()->user()->id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
+        $tenant_id = auth()->user()->employee_id;
+        if($role->role_id == 1){
+            $roomavailable = Room::where('status', 1)->count('id');
+            $checkin = Transaction::where('status', Transaction::STAT_CHECKIN)->count('id');
+            $booking = Transaction::where('status', Transaction::STAT_BOOKING)->count('id');
+            $transapproval = Transaction::where('stat_approval', Transaction::STAT_PROCCESSING)->count('id');
+            $payapproval = Payment::where('stat_approval', Payment::STAT_PROCCESSING)->count('id');
+            $invapproval = Invoice::where('payment_status', Invoice::STAT_UNPAID)->count('id');
+        }else{
+            $roomavailable = Room::where('status', 1)->count('id');
+            $checkin = Transaction::where('status', Transaction::STAT_CHECKIN)->count('id');
+            $booking = Transaction::where('status', Transaction::STAT_BOOKING)->count('id');
+            $transapproval = Transaction::where('tenant_id', $tenant_id)->count('id');
+            $payapproval = Payment::where('tenant_id', $tenant_id)->count('id');
+            $invapproval = Invoice::where('tenant_id', $tenant_id)->count('id');
+        }
+       
 
-        return view('admin.dashboard.index', compact('roomavailable', 'checkin', 'booking', 'transapproval','payapproval', 'invapproval'));
+        return view('admin.dashboard.index', compact('roomavailable', 'checkin', 'booking', 'transapproval','payapproval', 'invapproval','role'));
     }
 
     public function yesterdayAttendanceByDept()

@@ -18,6 +18,7 @@
 <div class="container-dashboard pl-4 pr-4">
 	<div class="row mt-3">
         <div class="col-lg-12">
+			@if ($role->role_id == 1)
             <div class="row">
                 <div class="col-md-6 col-sm-12 col-lg-4">
                     <div class="infobox-3 nunito">
@@ -133,6 +134,67 @@
                     </div>
                 </div>
             </div>
+			@else
+			 <div class="row">
+                <div class="col-md-6 col-sm-12 col-lg-4">
+                    <div class="infobox-3 nunito">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="info-icon">
+									{{-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> --}}
+                                    <img src="{{ asset('img/icon/oprec.png') }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="info-box-content">
+                                    <h5 class="info-heading text-right mb-0">{{ $transapproval }}</h5>
+                                    <p class="info-text text-right mb-3">Pemesanan</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="info-link mb-0 text-xs pt-3 small-box-footer" href="{{route('admin.transaction.booking.index')}}">Lihat Semua Data <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                    </div>
+                </div>
+            	<div class="col-md-6 col-sm-12 col-lg-4">
+            		<div class="infobox-3 nunito">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="info-icon">
+                                    <img src="{{ asset('img/icon/submit cv.png') }}">
+									{{-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg> --}}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="info-box-content">
+                    				<h5 class="info-heading text-right mb-0">{{ $payapproval }}</h5>
+                                    <p class="info-text text-right mb-3">Pembayaran</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="info-link mb-0 text-xs pt-3 small-box-footer" href="{{route('payment.index')}}">Lihat Semua Data <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                    </div>
+            	</div>
+                <div class="col-md-6 col-sm-12 col-lg-4">
+                    <div class="infobox-3 nunito">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="info-icon">
+                                    {{-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> --}}
+                                    <img src="{{ asset('img/icon/contract expired.png') }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="info-box-content">
+                                    <h5 class="info-heading text-right mb-0">{{ $invapproval }}</h5>
+                                    <p class="info-text text-right mb-3">Tagihan</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="info-link mb-0 text-xs pt-3 small-box-footer" href="{{route('invoice.index')}}">Lihat Semua Data <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
 	</div>
 </div>

@@ -26,11 +26,16 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return view('admin.transaction.booking.index');
+        $id = auth()->user()->id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
+        return view('admin.transaction.booking.index', compact('role'));
     }
     public function indexapproval()
     {
-        return view('admin.transaction.booking.indexapproval');
+        $id = auth()->user()->id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id',$id)->first();
+        // dd($role);
+        return view('admin.transaction.booking.indexapproval', compact('role'));
     }
     public function read(Request $request)
     {
@@ -45,7 +50,9 @@ class BookingController extends Controller
         $status = $request->status;
         $status_approval = $request->status_approval;
         $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
-
+        $id = auth()->user()->id;
+        $tenant_id = auth()->user()->employee_id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
         //Count Data
         $query = DB::table('transactions');
         $query->select('transactions.*',
@@ -67,6 +74,9 @@ class BookingController extends Controller
         }
         if ($status_approval) {
             $query->where("transactions.stat_approval", $status_approval);
+        }
+        if($role->role_id != 1){
+            $query->where("transactions.tenant_id", $tenant_id);
         }
         $recordsTotal = $query->count();
 
@@ -92,6 +102,9 @@ class BookingController extends Controller
         }
         if ($status_approval) {
             $query->where("transactions.stat_approval", $status_approval);
+        }
+        if ($role->role_id != 1) {
+            $query->where("transactions.tenant_id", $tenant_id);
         }
         $query->offset($start);
         $query->limit($length);
@@ -251,8 +264,11 @@ class BookingController extends Controller
     public function addBooking($id)
     {
         $room = Room::with(['category'])->findOrFail($id);
+        $id = auth()->user()->id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
+        $user = auth()->user();
         if ($room) {
-            return view('admin.booking.create', compact('room'));
+            return view('admin.booking.create', compact('room','user','role'));
         } else {
             abort(404);
         }
@@ -261,7 +277,6 @@ class BookingController extends Controller
     {
         $room = Room::find($id);
         $validator = Validator::make($request->all(), [
-            'tenant_id'        => 'required',
             'start_date'       => 'required',
             'end_date'         => 'required',
         ]);
@@ -279,7 +294,7 @@ class BookingController extends Controller
             'room_category'    => $room->category_id,
             // 'code'             => $request->code,
             'room_id'          => $room->id,
-            'tenant_id'        => $request->tenant_id,
+            'tenant_id'        => auth()->user()->employee_id,
             'price'            => $room->price,
             'code'             => '',
             'period_rent'      => $request->period_rent,
@@ -287,14 +302,14 @@ class BookingController extends Controller
             'start_date'       => $request->start_date,
             'end_date'         => $request->end_date,
             'start_time'       => $request->start_time,
-            'end_time'         => $request->end_time,
+            'end_time'         => $request->finish_time,
             'notes'            => $request->notes,
             'status'           => Transaction::STAT_BOOKING,
             'stat_approval'    => Transaction::STAT_PROCCESSING,
             'site_id'          => Session::get('site_id'),
 
         ]);
-        $room->status = 1;
+        $room->status = 2;
         $room->save();
         // dd($transaction);
         // print_r($transaction); die;
@@ -330,8 +345,9 @@ class BookingController extends Controller
     public function show($id)
     {
         $transaction = Transaction::with(['tenant', 'room', 'category'])->findOrFail($id);
-
-        return view('admin.transaction.booking.detail', compact('transaction'));
+        $id = auth()->user()->id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
+        return view('admin.transaction.booking.detail', compact('transaction', 'role'));
     }
 
     /**

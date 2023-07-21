@@ -65,16 +65,16 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Assign Employee</label>
+                            <label class="col-sm-2 col-form-label">Assign Tenan</label>
                             <div class="col-sm-4">
                                 <label> <input class="form-control" type="checkbox" id="assign" name="assign_employee" @if($user->assign_employee)
                                     checked @endif> <i></i></label>
                             </div>
                         </div>
                         <div class="form-group row" id="employee">
-                            <label for="email" class="col-sm-2 col-form-label">Employee</label>
+                            <label for="email" class="col-sm-2 col-form-label">Tenan</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control select2" id="employee_id" name="employee_id" placeholder="Employee"
+                                <input type="text" class="form-control select2" id="employee_id" name="employee_id" placeholder="Tenan"
                                     required>
                             </div>
                         </div>
@@ -153,7 +153,7 @@
         }).trigger('change');
         $("#employee_id").select2({
             ajax: {
-                url: "{{route('employees.select')}}",
+                url: "{{route('tenant.select')}}",
                 type: 'GET',
                 dataType: 'json',
                 data: function (term, page) {
@@ -183,7 +183,7 @@
         @if($user->employee_id)
         $("#employee_id").select2('data', {
             id: {{$user->employee_id}},
-            text: '{{$user->employee_name}}'
+            text: '{{$user->tenant_name}}'
         }).trigger('change');
         @endif
         $(document).on("change", "#employee_id", function () {

@@ -30,45 +30,45 @@
                 <div class="col-md-12">
                 <div class="row">
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Kode Transaksi</b></div>
-                        <div class="col-md-8">{{ $transaction->code }}</div>
+                        <div class="col-md-5"><b>Kode Transaksi</b></div>
+                        <div class="col-md-7">{{ $transaction->code }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Tgl Bayar</b></div>
-                        <div class="col-md-8">{{ $transaction->payment_date }}</div>
+                        <div class="col-md-5"><b>Tgl Bayar</b></div>
+                        <div class="col-md-7">{{ $transaction->payment_date }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Durasi Sewa</b></div>
-                        <div class="col-md-8">{{ $transaction->transaction->period_rent }}</div>
+                        <div class="col-md-5"><b>Durasi Sewa</b></div>
+                        <div class="col-md-7">{{ $transaction->transaction->period_rent }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Kategori</b></div>
-                        <div class="col-md-8">{{ $transaction->category->category }}</div>
+                        <div class="col-md-5"><b>Kategori</b></div>
+                        <div class="col-md-7">{{ $transaction->category->category }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Ruangan</b></div>
-                        <div class="col-md-8">{{ $transaction->room->name }}</div>
+                        <div class="col-md-5"><b>Ruangan</b></div>
+                        <div class="col-md-7">{{ $transaction->room->name }}</div>
                     </div>                 
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Tenan</b></div>
-                        <div class="col-md-8">{{ $transaction->tenant->name }}</div>
+                        <div class="col-md-5"><b>Tenan</b></div>
+                        <div class="col-md-7">{{ $transaction->tenant->name }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Perusahaan</b></div>
-                        <div class="col-md-8">{{ $transaction->tenant->company_name }}</div>
+                        <div class="col-md-5"><b>Perusahaan</b></div>
+                        <div class="col-md-7">{{ $transaction->tenant->company_name }}</div>
                     </div>
                     
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Periode Bayar</b></div>
-                        <div class="col-md-8">{{ $transaction->invoice->period_payment }}</div>
+                        <div class="col-md-5"><b>Periode Bayar</b></div>
+                        <div class="col-md-7">{{ $transaction->invoice->period_payment }}</div>
                     </div>
                      <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Jumlah Tagihan</b></div>
-                        <div class="col-md-8">Rp. {{ number_format($transaction->invoice_amount,0,',','.') }}</div>
+                        <div class="col-md-5"><b>Jumlah Tagihan</b></div>
+                        <div class="col-md-7">Rp. {{ number_format($transaction->invoice_amount,0,',','.') }}</div>
                     </div>
                      <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Jumlah Bayar</b></div>
-                        <div class="col-md-8">Rp. {{ number_format($transaction->payment_amount,0,',','.') }}</div>
+                        <div class="col-md-5"><b>Jumlah Bayar</b></div>
+                        <div class="col-md-7">Rp. {{ number_format($transaction->payment_amount,0,',','.') }}</div>
                     </div>
                     
                 </div>
@@ -85,7 +85,7 @@
           <div class="card-header">
             <h3 class="card-title">Other</h3>
             <div class="pull-right card-tools">
-              @if($transaction->stat_approval == 2)
+              @if($transaction->stat_approval == 2 && $status->checkin_date == null && $role->role_id == 1)
               <a href="{{route('checkin.addcheckin', ['id' => $transaction->trans_id]) }}" class="btn btn-sm btn-{{ config('configs.app_theme') }}" title="Checkin Ruangan"><i
                   class="fa fa-building"></i></a>
               @endif

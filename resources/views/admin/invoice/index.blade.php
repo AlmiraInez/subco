@@ -20,10 +20,6 @@
                     <h3 class="card-title">Daftar Tagihan</h3>
                     <!-- tools box -->
                     <div class="pull-right card-tools">
-                        <a href="{{route('admin.transaction.booking.create')}}" class="btn btn-{{ config('configs.app_theme')}} btn-sm text-white" data-toggle="tooltip"
-                            title="Tambah">
-                            <i class="fa fa-plus"></i>
-                        </a>
                         <a href="#" onclick="filter()" class="btn btn-default btn-sm" data-toggle="tooltip" title="Search">
                             <i class="fa fa-search"></i>
                         </a>

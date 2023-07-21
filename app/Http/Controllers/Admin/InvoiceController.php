@@ -40,7 +40,9 @@ class InvoiceController extends Controller
         $tenant_id = $request->tenant_id;
         $status = $request->status;
         $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
-        // $name = strtoupper($request->name);
+        $id = auth()->user()->id;
+        $tenant_id = auth()->user()->employee_id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
 
         //Count Data
         $query = DB::table('invoices');
@@ -63,6 +65,9 @@ class InvoiceController extends Controller
         }
         if ($status) {
             $query->where("invoices.payment_status", "=", $status);
+        }
+        if ($role->role_id != 1) {
+            $query->where("invoices.tenant_id", $tenant_id);
         }
         $recordsTotal = $query->count();
 
@@ -87,6 +92,9 @@ class InvoiceController extends Controller
         }
         if ($status) {
             $query->where("invoices.payment_status", "=", $status);
+        }
+        if ($role->role_id != 1) {
+            $query->where("invoices.tenant_id", $tenant_id);
         }
         $query->offset($start);
         $query->limit($length);

@@ -79,7 +79,7 @@
                         <div class="form-group row" id="employee">
                             <label for="email" class="col-sm-2 col-form-label">Tenan</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control select2" id="employee_id" name="employee_id" placeholder="Employee"
+                                <input type="text" class="form-control select2" id="employee_id" name="employee_id" placeholder="Tenan"
                                     required>
                             </div>
                         </div>

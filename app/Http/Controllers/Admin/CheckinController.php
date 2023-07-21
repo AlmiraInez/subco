@@ -238,8 +238,10 @@ class CheckinController extends Controller
     public function show($id)
     {
         $transaction = Transaction::with(['tenant', 'room', 'category'])->findOrFail($id);
+        $id = auth()->user()->id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
 
-        return view('admin.checkin.detail', compact('transaction'));
+        return view('admin.checkin.detail', compact('transaction', 'role'));
     }
 
     /**

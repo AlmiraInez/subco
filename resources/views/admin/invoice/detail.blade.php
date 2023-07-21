@@ -30,50 +30,50 @@
                 <div class="col-md-12">
                 <div class="row">
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Kode Transaksi</b></div>
-                        <div class="col-md-8">{{ $transaction->code }}</div>
+                        <div class="col-md-5"><b>Kode Transaksi</b></div>
+                        <div class="col-md-6">{{ $transaction->code }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Tgl Tagihan</b></div>
-                        <div class="col-md-8">{{ $transaction->invoice_date }}</div>
+                        <div class="col-md-5"><b>Tgl Tagihan</b></div>
+                        <div class="col-md-6">{{ $transaction->invoice_date }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Durasi Sewa</b></div>
-                        <div class="col-md-8">{{ $transaction->period_amount }}</div>
+                        <div class="col-md-5"><b>Durasi Sewa</b></div>
+                        <div class="col-md-6">{{ $transaction->period_amount }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Kategori</b></div>
-                        <div class="col-md-8">{{ $transaction->category->category }}</div>
+                        <div class="col-md-5"><b>Kategori</b></div>
+                        <div class="col-md-6">{{ $transaction->category->category }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Ruangan</b></div>
-                        <div class="col-md-8">{{ $transaction->room->name }}</div>
+                        <div class="col-md-5"><b>Ruangan</b></div>
+                        <div class="col-md-6">{{ $transaction->room->name }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Harga Ruangan</b></div>
-                        <div class="col-md-8">Rp. {{ number_format($transaction->price,0,',','.') }}</div>
-                    </div>
-                    
-                    <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Tenan</b></div>
-                        <div class="col-md-8">{{ $transaction->tenant->name }}</div>
-                    </div>
-                    <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Perusahaan</b></div>
-                        <div class="col-md-8">{{ $transaction->tenant->company_name }}</div>
+                        <div class="col-md-5"><b>Harga Ruangan</b></div>
+                        <div class="col-md-6">Rp. {{ number_format($transaction->price,0,',','.') }}</div>
                     </div>
                     
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Periode Bayar</b></div>
-                        <div class="col-md-8">{{ $transaction->period_payment }}</div>
+                        <div class="col-md-5"><b>Tenan</b></div>
+                        <div class="col-md-6">{{ $transaction->tenant->name }}</div>
+                    </div>
+                    <div class="row mb-3 col-md-6">
+                        <div class="col-md-5"><b>Perusahaan</b></div>
+                        <div class="col-md-6">{{ $transaction->tenant->company_name }}</div>
+                    </div>
+                    
+                    <div class="row mb-3 col-md-6">
+                        <div class="col-md-5"><b>Periode Bayar</b></div>
+                        <div class="col-md-6">{{ $transaction->period_payment }}</div>
                     </div>
                      <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>Jumlah Tagihan</b></div>
-                        <div class="col-md-8">Rp. {{ number_format($transaction->amount,0,',','.') }}</div>
+                        <div class="col-md-5"><b>Jumlah Tagihan</b></div>
+                        <div class="col-md-6">Rp. {{ number_format($transaction->amount,0,',','.') }}</div>
                     </div>
                     <div class="row mb-3 col-md-6">
-                        <div class="col-md-4"><b>No.Rekening</b></div>
-                        <div class="col-md-8">(BRI - Subco)-12345678</div>
+                        <div class="col-md-5"><b>No.Rekening</b></div>
+                        <div class="col-md-6">(BRI - Subco)-12345678</div>
                     </div>
                     
                 </div>

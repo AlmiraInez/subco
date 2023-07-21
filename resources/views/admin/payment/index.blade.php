@@ -118,8 +118,10 @@
 
 @push('scripts')
 <script src="{{asset('adminlte/component/dataTables/js/datatables.min.js')}}"></script>
+<script src="{{asset('adminlte/component/daterangepicker/moment.min.js')}}"></script>
 <script src="{{asset('assets/js/plugins/bootbox/bootbox.min.js')}}"></script>
-<script type="text/javascript">
+<script src="{{asset('adminlte/component/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('adminlte/component/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script><script type="text/javascript">
 function filter(){
     $('#add-filter').modal('show');
 }

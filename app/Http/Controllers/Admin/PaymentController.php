@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Payment;
 use App\Models\Invoice;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -41,7 +42,9 @@ class PaymentController extends Controller
         $status = $request->status;
         $status_approval = $request->status_approval;
         $transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->startOfDay()->toDateTimeString() : null;
-        // $name = strtoupper($request->name);
+        $id = auth()->user()->id;
+        $tenant_id = auth()->user()->employee_id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
 
         //Count Data
         $query = DB::table('payments');
@@ -65,10 +68,13 @@ class PaymentController extends Controller
             $query->where("payment_date", $transaction_date);
         }
         if ($tenant_id) {
-            $query->where("payment.tenant_id", $tenant_id);
+            $query->where("payments.tenant_id", $tenant_id);
         }
         if ($status_approval) {
             $query->where("payments.stat_approval", $status_approval);
+        }
+        if ($role->role_id != 1) {
+            $query->where("payments.tenant_id", $tenant_id);
         }
         $recordsTotal = $query->count();
 
@@ -95,10 +101,13 @@ class PaymentController extends Controller
             $query->where("payment_date", $transaction_date);
         }
         if ($tenant_id) {
-            $query->where("payment.tenant_id", $tenant_id);
+            $query->where("payments.tenant_id", $tenant_id);
         }
         if ($status_approval) {
             $query->where("payments.stat_approval", $status_approval);
+        }
+        if ($role->role_id != 1) {
+            $query->where("payments.tenant_id", $tenant_id);
         }
         $query->offset($start);
         $query->limit($length);
@@ -225,7 +234,10 @@ class PaymentController extends Controller
     public function show($id)
     {
         $transaction = Payment::with(['invoice','tenant', 'room', 'category','transaction'])->findOrFail($id);
-        return view('admin.payment.detail', compact('transaction'));
+        $status = Transaction::findOrFail($transaction->trans_id);
+        $id = auth()->user()->id;
+        $role = DB::table('role_user')->select('role_id')->where('user_id', $id)->first();
+        return view('admin.payment.detail', compact('transaction', 'role', 'status'));
     }
 
     /**

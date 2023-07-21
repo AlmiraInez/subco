@@ -210,10 +210,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $query = DB::table('users');
-        $query->select('users.*', 'roles.display_name', 'role_user.role_id', 'employees.name as employee_name');
+        $query->select('users.*', 'roles.display_name', 'role_user.role_id', 'tenants.name as tenant_name');
         $query->leftJoin('role_user', 'role_user.user_id', '=', 'users.id');
         $query->leftJoin('roles', 'role_user.role_id', '=', 'roles.id');
-        $query->leftJoin('employees', 'employees.id', '=', 'users.employee_id');
+        $query->leftJoin('tenants', 'tenants.id', '=', 'users.employee_id');
         $query->where('users.id', '=', $id);
         $user = $query->get()->first();
         if ($user) {

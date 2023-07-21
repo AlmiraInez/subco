@@ -94,7 +94,8 @@
           <div class="card-header">
             <h3 class="card-title">Other</h3>
             <div class="pull-right card-tools">
-              @if($transaction->status == 1)
+              {{-- @if($transaction->status == 1) --}}
+              @if($transaction->status == 2 && $transaction->checkin_date != null && $role->role_id == 1)
               <a href="{{route('checkout.addcheckout', ['id' => $transaction->id]) }}" class="btn btn-sm btn-{{ config('configs.app_theme') }}" title="Checkout Ruangan"><i
                   class="fa fa-sign-out-alt"></i></a>
               @endif
